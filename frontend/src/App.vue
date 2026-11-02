@@ -5,6 +5,7 @@ const todos = ref([])
 const newTitle = ref('')
 const newTaskComplexity = ref('Medium')
 const API_URL = 'http://localhost:8001'
+const userName = ref('')
 
 const shieldDone = `<svg viewBox="0 0 18 20" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9 1 L17 4 L17 11 Q17 17 9 19 Q1 17 1 11 L1 4 Z" fill="#3a7830" stroke="#5ab040" stroke-width="1.2"/>
@@ -19,6 +20,7 @@ const toastMessage = ref('')
 const isToastVisible = ref(false)
 
 // For a auth form
+const isFormVisible = ref(false)
 const formMode = ref('login')
 const loginName = ref('')
 const loginPassword = ref('')
@@ -95,8 +97,11 @@ async function loadTodos () {
 }
 
 function openForm() {
-  const form = document.getElementById("auth-form")
-  form.classList.add("visible");title
+  isFormVisible.value = true
+}
+
+function closeForm() {
+  isFormVisible.value = false
 }
 
 // Form functions
@@ -109,17 +114,40 @@ function submitLogin() {
   formMessage.value = `Login submitted for "${loginName.value}" — backend can be connected here.`
 }
 
-function submitRegister() {
+async function submitRegister() {
   if (registerPassword.value !== registerPasswordRepeat.value) {
     formMessage.value = 'Passwords do not match.'
     return
   }
 
-  formMessage.value = `Registration submitted for "${registerName.value}" — backend can be connected here.`
+  const res = await fetch(
+    `${API_URL}/auth/register`,
+    {
+      method: 'POST',
+
+      headers: {
+        'Content-Type': 'application/json'
+      },
+
+      body: JSON.stringify({
+        username: registerName.value,
+        email: registerEmail.value,
+        password: registerPassword.value
+      })
+    }
+  )
+
+  const data = await res.json()
+
+  console.log(data)
+
+  userName.value = data.username
+  formMessage.value = 'Account created!'
+  closeForm()
 }
 
 onMounted(loadTodos)
-</script>
+</script> class="potion" style="top:8px;right:12px
 
 <template>
   <div class="app">
@@ -130,7 +158,7 @@ onMounted(loadTodos)
         <!-- HEADER SCENE -->
         <header class="header-scene">
           <!-- <div class="lantern">🏮</div> -->
-          <button @click="openForm()" class="potion" style="top:8px;right:12px">🧪</button>
+          <button @click="openForm()" class="potion" style="top:8px;right:12px"><span>{{ userName }}</span> 🧪</button>
         </header>
 
 
@@ -146,7 +174,7 @@ onMounted(loadTodos)
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
-              </select>
+              </select>Register
               <button class="add-btn" @click="addTask">ADD</button>
             </div>
 
@@ -228,11 +256,15 @@ onMounted(loadTodos)
 
     <div class="toast" :class="{ show: isToastVisible}">{{ toastMessage }}</div>
 
-
-    <div class="form-wrap">
+    <div class="form-wrap" id="auth-form" :class="{ visible: isFormVisible }">
       <div class="background-overlay"></div>
 
       <section class="auth-card" aria-label="Authentication">
+        <button class="auth-close" type="button" aria-label="Close authentication form" title="Close" @click="closeForm">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m7 7 10 10M17 7 7 17" />
+          </svg>
+        </button>
         <div class="top-rune">◇</div>
 
         <header class="brand">

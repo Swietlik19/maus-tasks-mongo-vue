@@ -10,6 +10,7 @@ app = FastAPI()
 client = AsyncMongoClient(os.getenv("MONGO_URI"))
 db = client.myproject
 todos = db.todos
+users = db.users
 general = db.general
 
 # CORS, Т.к. порты разные, чтобы не было проблем в браузере
@@ -30,6 +31,11 @@ class TodoUpdate(BaseModel):
     title: str | None = None
     complexity: str | None = None
     done: bool | None = None
+
+class RegisterData(BaseModel):
+    username: str
+    email: str
+    password: str
 
 @app.get("/todos")
 async def list_todos():
@@ -81,3 +87,18 @@ async def delete_todo(todo_id: str):
     if res.deleted_count == 0:
         raise HTTPException(404, "Not found")
     return {"ok": True}
+
+@app.post("/auth/register")
+async def register(data: RegisterData):
+
+    result = await users.insert_one({
+        "username": data.username,
+        "email": data.email,
+        "password": data.password,
+    })
+
+    return {
+        "id": str(result.inserted_id),
+        "username": data.username,
+        "email": data.email,
+    }
