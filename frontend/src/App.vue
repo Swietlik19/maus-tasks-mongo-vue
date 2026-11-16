@@ -115,6 +115,7 @@ function submitLogin() {
 }
 
 async function submitRegister() {
+  formMessage.value = ''
   if (registerPassword.value !== registerPasswordRepeat.value) {
     formMessage.value = 'Passwords do not match.'
     return
@@ -174,7 +175,8 @@ onMounted(loadTodos)
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
-              </select>Register
+              </select>
+              Register
               <button class="add-btn" @click="addTask">ADD</button>
             </div>
 
@@ -195,17 +197,17 @@ onMounted(loadTodos)
           <!-- SIDEBAR -->
           <div class="sidebar">
             <div class="side-panel">
-              <div class="side-panel-title">МОЙ ПРОГРЕСС</div>
+              <div class="side-panel-title">MY PROGRESS</div>
               <div class="progress-nums" id="progressNums">0 <span>/ 0</span></div>
               <div class="prog-bar-outer">
                 <div class="prog-bar-inner" id="progressBar" style="width:0%"></div>
               </div>
               <div class="dragon-display">
                 <span class="dragon-emoji" id="dragonEmoji">🥚</span>
-                <span class="dragon-caption" id="dragonCaption">Выполняй квесты,<br>чтобы вылупить дракона!</span>
+                <span class="dragon-caption" id="dragonCaption">Complete quests<br>to hatch a dragon!</span>
               </div>
 
-              <div class="side-panel-title">МАГИЧЕСКИЕ КРИСТАЛЛЫ</div>
+              <div class="side-panel-title">MAGIC CRYSTALS</div>
               <div class="crystal-big">
                 <span class="crystal-icon-big">💎</span>
                 <span class="crystal-count" id="crystalCount">0</span>
@@ -213,21 +215,21 @@ onMounted(loadTodos)
             </div>
 
             <div class="side-panel">
-              <div class="side-panel-title">НАГРАДЫ</div>
+              <div class="side-panel-title">REWARDS</div>
               <div class="reward-row">
                 <span class="reward-icon">🍰</span>
-                <span class="reward-name">Сладкий Ролл</span>
-                <button class="reward-buy" id="btn-roll" onclick="buyReward('Сладкий Ролл 🍰',3)" disabled>💎 3</button>
+                <span class="reward-name">Sweet Roll</span>
+                <button class="reward-buy" id="btn-roll" onclick="buyReward('Sweet Roll 🍰',3)" disabled>💎 3</button>
               </div>
               <div class="reward-row">
                 <span class="reward-icon">⚔️</span>
-                <span class="reward-name">Лезвие Уверенности</span>
-                <button class="reward-buy" id="btn-blade" onclick="buyReward('Лезвие Уверенности ⚔️',5)" disabled>💎 5</button>
+                <span class="reward-name">Blade of Confidence</span>
+                <button class="reward-buy" id="btn-blade" onclick="buyReward('Blade of Confidence ⚔️',5)" disabled>💎 5</button>
               </div>
               <div class="reward-row">
                 <span class="reward-icon">🐉</span>
-                <span class="reward-name">Купить Дракона!</span>
-                <button class="reward-buy" id="btn-dragon" onclick="buyReward('Дракон твой! 🐉',20)" disabled>💎 20</button>
+                <span class="reward-name">Buy a Dragon!</span>
+                <button class="reward-buy" id="btn-dragon" onclick="buyReward('The dragon is yours! 🐉',20)" disabled>💎 20</button>
               </div>
             </div>
           </div>
@@ -240,11 +242,11 @@ onMounted(loadTodos)
             <img src="./assets/img/maus.png" class="maus" width="250" alt="">
           </div>
           <!-- <div class="bottom-center">
-            <div class="collect-text">Собирай магические кристаллы для ценнейших наград!</div>
+            <div class="collect-text">Collect magic crystals for precious rewards!</div>
             <div class="reward-strip">
-              <div class="reward-strip-item">🐉 Купить Дракона! <span class="reward-strip-cost">💎 20</span></div>
-              <div class="reward-strip-item">🍰 Сладкий Ролл <span class="reward-strip-cost">💎 3</span></div>
-              <div class="reward-strip-item">⚔️ Лезвие Уверенности <span class="reward-strip-cost">💎 +5</span></div>
+              <div class="reward-strip-item">🐉 Buy a Dragon! <span class="reward-strip-cost">💎 20</span></div>
+              <div class="reward-strip-item">🍰 Sweet Roll <span class="reward-strip-cost">💎 3</span></div>
+              <div class="reward-strip-item">⚔️ Blade of Confidence <span class="reward-strip-cost">💎 +5</span></div>
             </div>
           </div> -->
           <div class="bottom-right">
